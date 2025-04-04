@@ -1,27 +1,25 @@
-import java.io.*;
-import java.net.Socket;
+import client.TcpClient;
+import client.ReaderThread;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 public class Main {
     public static void main(String[] args) {
         String hostname = "localhost";
         int port = 8080;
 
-        try (Socket socket = new Socket(hostname, port)) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+        TcpClient tcpClient = new TcpClient(hostname, port);
+        PrintWriter writer = tcpClient.getPrintWriter();
 
-            new Thread(() -> {
-                try {
-                    String serverMessage;
-                    while ((serverMessage = reader.readLine()) != null) {
-                        System.out.println("받은 메세지 : " + serverMessage);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }).start();
+        ReaderThread readerThread = new ReaderThread(tcpClient.getBufferedReader());
+        readerThread.run();
 
+        BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+
+        try {
             String userInput;
             while ((userInput = consoleReader.readLine()) != null) {
                 writer.println(userInput);
@@ -29,5 +27,6 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }
