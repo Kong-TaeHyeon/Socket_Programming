@@ -1,12 +1,12 @@
-package client;
+package client.tcp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class ReaderThread implements Runnable {
+public class TcpRunner implements Runnable {
     BufferedReader br;
 
-    public ReaderThread(BufferedReader br) {
+    public TcpRunner(BufferedReader br) {
         this.br = br;
     }
 

@@ -1,5 +1,6 @@
-import client.TcpClient;
-import client.ReaderThread;
+import client.tcp.TcpClient;
+import client.tcp.TcpRunner;
+import client.udp.UdpClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,11 +12,12 @@ public class Main {
         String hostname = "localhost";
         int port = 8080;
 
+        // TCP.
         TcpClient tcpClient = new TcpClient(hostname, port);
         PrintWriter writer = tcpClient.getPrintWriter();
 
-        ReaderThread readerThread = new ReaderThread(tcpClient.getBufferedReader());
-        readerThread.run();
+        TcpRunner tcpRunner = new TcpRunner(tcpClient.getBufferedReader());
+        tcpRunner.run();
 
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -27,6 +29,9 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // UDP.
+        UdpClient udpClient = new UdpClient(hostname, port);
 
     }
 }
