@@ -1,16 +1,16 @@
-package server;
+package server.tcp;
 
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Server {
+public class TcpServer {
     static Set<Client> clients = ConcurrentHashMap.newKeySet();
     private ServerSocket serverSocket;
     private final int port = 8080;
 
-    public Server() {
+    public TcpServer() {
         try {
             serverSocket = new ServerSocket(port);
         } catch (Exception e) {
@@ -47,7 +47,6 @@ public class Server {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return socket;
     }
 }

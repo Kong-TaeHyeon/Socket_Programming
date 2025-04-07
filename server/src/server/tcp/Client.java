@@ -1,4 +1,4 @@
-package server;
+package server.tcp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class Client implements Runnable {
 
         while ((message = getMessage()) != null) {
             System.out.println("받은 메세지 : " + message);
-            Server.broadCast(message, this);
+            TcpServer.broadCast(message, this);
         }
 
         System.out.println("사용자 한명이 나갔습니다.");
@@ -52,7 +52,7 @@ public class Client implements Runnable {
 
     private void close() {
         try {
-            Server.removeClient(this);
+            TcpServer.removeClient(this);
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -41,6 +41,16 @@ public class UdpClient {
         }
     }
 
+    public void send(String message) {
+        try {
+            byte[] buffer = message.getBytes();
+            setOutPacket(buffer);
+            socket.send(outPacket);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void setOutPacket(byte[] buffer) {
         this.outPacket = new DatagramPacket(buffer, buffer.length, targetAddress, port);
